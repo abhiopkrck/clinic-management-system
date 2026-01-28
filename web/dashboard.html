@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --neon-cyan: #00F0FF;
+    --electric-blue: #0066FF;
+    --deep-purple: #1A0033;
+    --black: #0A0A0A;
+    --white: #FFFFFF;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Archivo', sans-serif;
+    background: #0A0A0A;
+    color: white;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    left: 0; top: 0;
+    width: 260px;
+    height: 100vh;
+    background: rgba(0,0,0,0.8);
+    border-right: 2px solid rgba(0,240,255,0.3);
+    padding: 20px;
+}
+
+.sidebar h2 {
+    font-family: 'Bebas Neue';
+    letter-spacing: 3px;
+    color: var(--neon-cyan);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.menu a {
+    display: block;
+    padding: 12px;
+    margin-bottom: 10px;
+    color: white;
+    text-decoration: none;
+    border: 1px solid rgba(0,240,255,0.2);
+    transition: 0.3s;
+}
+
+.menu a:hover {
+    background: rgba(0,240,255,0.1);
+    box-shadow: 0 0 15px var(--neon-cyan);
+}
+
+/* Main */
+.main {
+    margin-left: 260px;
+    padding: 30px;
+}
+
+.topbar {
+    font-size: 28px;
+    font-family: 'Bebas Neue';
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+
+/* Cards */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: rgba(255,255,255,0.03);
+    border: 2px solid rgba(0,240,255,0.3);
+    padding: 25px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.card:hover {
+    box-shadow: 0 0 25px var(--neon-cyan);
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    font-family: 'Bebas Neue';
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.big {
+    font-size: 36px;
+    color: var(--neon-cyan);
+}
+
+/* Table */
+.table-box {
+    margin-top: 40px;
+    border: 2px solid rgba(0,240,255,0.3);
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border-bottom: 1px solid rgba(0,240,255,0.2);
+    padding: 12px;
+    text-align: left;
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>CLINIC ADMIN</h2>
+    <div class="menu">
+        <a href="#">🏠 Dashboard</a>
+        <a href="#">👨‍⚕️ Doctors</a>
+        <a href="#">🧑‍🤝‍🧑 Patients</a>
+        <a href="#">📅 Appointments</a>
+        <a href="#">🏖 Leaves</a>
+        <a href="#">💊 Pharmacy</a>
+        <a href="#">💰 Billing</a>
+        <a href="#">📊 Reports</a>
+        <a href="#">⚙ Settings</a>
+        <a href="#" onclick="logout()">🚪 Logout</a>
+    </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <div class="topbar">ADMIN DASHBOARD</div>
+
+    <!-- STAT CARDS -->
+    <div class="cards">
+        <div class="card">
+            <h3>Total Patients</h3>
+            <div class="big">124</div>
+        </div>
+        <div class="card">
+            <h3>Total Doctors</h3>
+            <div class="big">12</div>
+        </div>
+        <div class="card">
+            <h3>Today Appointments</h3>
+            <div class="big">18</div>
+        </div>
+        <div class="card">
+            <h3>Revenue</h3>
+            <div class="big">₹45,000</div>
+        </div>
+    </div>
+
+    <!-- RECENT APPOINTMENTS -->
+    <div class="table-box">
+        <h3 style="margin-bottom:15px;">Recent Appointments</h3>
+        <table>
+            <tr>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td>Rahul</td>
+                <td>Dr. Sharma</td>
+                <td>2026-01-28</td>
+                <td>Pending</td>
+            </tr>
+            <tr>
+                <td>Amit</td>
+                <td>Dr. Singh</td>
+                <td>2026-01-28</td>
+                <td>Completed</td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+<script>
+function logout(){
+    localStorage.clear();
+    window.location.href = "/web/login.html";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/web/css/app.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --aurora-pink: #FF0080;
+            --aurora-purple: #7928CA;
+            --aurora-blue: #0070F3;
+            --aurora-cyan: #00DFD8;
+            --dark-bg: #0F0F23;
+            --card-bg: rgba(20, 20, 40, 0.6);
+            --white: #FFFFFF;
+            --gray: #94A3B8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Sora', sans-serif;
+            background: var(--dark-bg);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 2rem;
+        }
+
+        /* Aurora gradient background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 0, 128, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(121, 40, 202, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(0, 112, 243, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 90% 20%, rgba(0, 223, 216, 0.12) 0%, transparent 50%);
+            animation: aurora 25s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes aurora {
+            0%, 100% { 
+                transform: rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            33% { 
+                transform: rotate(120deg) scale(1.1);
+                opacity: 0.8;
+            }
+            66% { 
+                transform: rotate(240deg) scale(0.9);
+                opacity: 1;
+            }
+        }
+
+        /* Mesh gradient overlay */
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(125deg, transparent 0%, rgba(255, 0, 128, 0.05) 40%, transparent 70%),
+                linear-gradient(230deg, transparent 30%, rgba(0, 223, 216, 0.05) 60%, transparent 100%);
+            pointer-events: none;
+            animation: meshFlow 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes meshFlow {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+
+        /* Animated dots pattern */
+        .dots-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: dotsMove 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes dotsMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, 30px); }
+        }
+
+        /* Glowing orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            top: 10%;
+            left: 10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--aurora-pink), transparent);
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            top: 60%;
+            right: 10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--aurora-purple), transparent);
+            animation-delay: 5s;
+        }
+
+        .orb-3 {
+            bottom: 10%;
+            left: 40%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, var(--aurora-cyan), transparent);
+            animation-delay: 10s;
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translate(0, 0) scale(1);
+            }
+            33% { 
+                transform: translate(50px, -30px) scale(1.1);
+            }
+            66% { 
+                transform: translate(-30px, 50px) scale(0.9);
+            }
+        }
+
+        /* Main content */
+        body > :not(.dots-pattern):not(.orb) {
+            position: relative;
+            z-index: 10;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, 
+                var(--aurora-pink) 0%, 
+                var(--aurora-purple) 30%, 
+                var(--aurora-blue) 60%, 
+                var(--aurora-cyan) 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 3rem;
+            position: relative;
+            animation: gradientShift 8s ease infinite, slideDown 0.8s ease;
+            filter: drop-shadow(0 0 30px rgba(255, 0, 128, 0.5));
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Glass morphism card */
+        .form-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 
+                0 8px 32px 0 rgba(31, 38, 135, 0.37),
+                inset 0 0 60px rgba(255, 0, 128, 0.05);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                var(--aurora-pink), 
+                var(--aurora-purple), 
+                var(--aurora-blue), 
+                var(--aurora-cyan));
+            background-size: 200% 100%;
+            animation: borderFlow 3s linear infinite;
+        }
+
+        @keyframes borderFlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+
+        #name,
+        #email,
+        #password,
+        #role {
+            width: 100%;
+            padding: 1.3rem 1.8rem;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            color: var(--white);
+            font-size: 1rem;
+            font-family: 'Sora', sans-serif;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.6s ease both;
+        }
+
+        #name { animation-delay: 0.1s; }
+        #email { animation-delay: 0.2s; }
+        #password { animation-delay: 0.3s; }
+        #role { animation-delay: 0.4s; }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #name::placeholder,
+        #email::placeholder,
+        #password::placeholder,
+        #role::placeholder {
+            color: var(--gray);
+            font-weight: 400;
+        }
+
+        #name:focus,
+        #email:focus,
+        #password:focus,
+        #role:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--aurora-cyan);
+            box-shadow: 
+                0 0 30px rgba(0, 223, 216, 0.3),
+                inset 0 0 20px rgba(0, 223, 216, 0.05);
+            transform: translateY(-2px);
+        }
+
+        /* Special styling for role input */
+        #role {
+            background: linear-gradient(135deg, 
+                rgba(255, 0, 128, 0.05), 
+                rgba(0, 223, 216, 0.05));
+            border-color: rgba(255, 255, 255, 0.2);
+            font-size: 0.9rem;
+        }
+
+        #role:focus {
+            border-color: var(--aurora-purple);
+            box-shadow: 
+                0 0 30px rgba(121, 40, 202, 0.4),
+                inset 0 0 20px rgba(121, 40, 202, 0.08);
+        }
+
+        button {
+            width: 100%;
+            padding: 1.4rem 2rem;
+            margin-top: 0.5rem;
+            background: linear-gradient(135deg, 
+                var(--aurora-pink) 0%, 
+                var(--aurora-purple) 50%, 
+                var(--aurora-blue) 100%);
+            background-size: 200% 200%;
+            border: none;
+            border-radius: 12px;
+            color: var(--white);
+            font-size: 1.1rem;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 
+                0 10px 40px rgba(255, 0, 128, 0.4),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+            animation: slideUp 0.6s ease 0.5s both;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        button:hover {
+            background-position: 100% 50%;
+            transform: translateY(-3px);
+            box-shadow: 
+                0 15px 60px rgba(255, 0, 128, 0.6),
+                0 5px 30px rgba(121, 40, 202, 0.4),
+                inset 0 0 30px rgba(255, 255, 255, 0.15);
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        /* Floating label effect */
+        .input-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Sparkle effect */
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1) rotate(180deg); }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--aurora-cyan);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        .sparkle:nth-child(1) {
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .sparkle:nth-child(2) {
+            top: 45%;
+            right: 15%;
+            animation-delay: 0.6s;
+        }
+
+        .sparkle:nth-child(3) {
+            bottom: 25%;
+            left: 20%;
+            animation-delay: 1.2s;
+        }
+
+        .sparkle:nth-child(4) {
+            top: 70%;
+            right: 25%;
+            animation-delay: 1.8s;
+        }
+
+        /* Glow pulse effect */
+        @keyframes glowPulse {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(255, 0, 128, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 40px rgba(255, 0, 128, 0.6),
+                           0 0 60px rgba(121, 40, 202, 0.4);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+
+            h2 {
+                font-size: 2.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .form-container {
+                padding: 2rem 1.5rem;
+            }
+
+            #name,
+            #email,
+            #password,
+            #role,
+            button {
+                padding: 1.1rem 1.5rem;
+                font-size: 0.95rem;
+            }
+
+            .orb {
+                filter: blur(40px);
+            }
+        }
+
+        /* Holographic effect on hover */
+        .form-container:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 8px 32px 0 rgba(31, 38, 135, 0.5),
+                inset 0 0 80px rgba(255, 0, 128, 0.08),
+                0 0 60px rgba(0, 223, 216, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Dots pattern -->
+    <div class="dots-pattern"></div>
+
+    <!-- Glowing orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- Sparkles -->
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+
+    <h2>Register</h2>
+    
+    <div class="form-container">
+        <input id="name" placeholder="Name">
+        <input id="email" placeholder="Email">
+        <input id="password" placeholder="Password">
+        <input id="role" placeholder="1=Admin 2=Doctor 3=Staff">
+        <button onclick="register()">Register</button>
+    </div>
+
+    <script src="/web/js/register.js"></script>
+</body>
+</html>

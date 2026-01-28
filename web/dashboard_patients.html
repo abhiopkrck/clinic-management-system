@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patients Dashboard</title>
+<link rel="stylesheet" href="/web/css/app.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Electrolize&display=swap" rel="stylesheet">
+<style>
+:root {
+    --plasma-cyan: #00F5FF;
+    --plasma-magenta: #FF00FF;
+    --plasma-yellow: #FFFF00;
+    --plasma-green: #00FF88;
+    --void-black: #0D0D1A;
+    --void-dark: #13132B;
+    --card-bg: #1A1A3E;
+    --hover-bg: #252550;
+    --white: #FFFFFF;
+    --gray: #A0AEC0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Netflix-dark theme */
+body {
+    background-color: var(--void-black);
+    color: var(--white);
+    font-family: 'Electrolize', sans-serif;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Plasma wave background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(ellipse at 10% 20%, rgba(0, 245, 255, 0.12) 0%, transparent 45%),
+        radial-gradient(ellipse at 90% 80%, rgba(255, 0, 255, 0.12) 0%, transparent 45%),
+        radial-gradient(ellipse at 50% 50%, rgba(0, 255, 136, 0.08) 0%, transparent 50%);
+    animation: plasmaWave 25s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes plasmaWave {
+    0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    33% { transform: scale(1.1) rotate(120deg); opacity: 0.8; }
+    66% { transform: scale(0.9) rotate(240deg); opacity: 1; }
+}
+
+/* Hexagon pattern */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        repeating-linear-gradient(60deg, transparent, transparent 20px, rgba(0, 245, 255, 0.02) 20px, rgba(0, 245, 255, 0.02) 21px),
+        repeating-linear-gradient(-60deg, transparent, transparent 20px, rgba(0, 245, 255, 0.02) 20px, rgba(0, 245, 255, 0.02) 21px);
+    animation: hexMove 30s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes hexMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(40px, 40px); }
+}
+
+body > * {
+    position: relative;
+    z-index: 10;
+}
+
+h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2rem, 6vw, 3rem);
+    margin-bottom: 20px;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 900;
+    background: linear-gradient(135deg, 
+        var(--plasma-cyan) 0%, 
+        var(--plasma-magenta) 50%, 
+        var(--plasma-yellow) 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: plasmaShift 6s ease infinite, slideDown 0.8s ease;
+    filter: drop-shadow(0 0 30px rgba(0, 245, 255, 0.6));
+}
+
+@keyframes plasmaShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.logout-btn {
+    background: linear-gradient(135deg, #555, #777);
+    padding: 10px 20px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    color: var(--white);
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 600;
+    transition: all 0.4s ease;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.logout-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.5s ease, height 0.5s ease;
+}
+
+.logout-btn:hover {
+    background: linear-gradient(135deg, #777, #999);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+}
+
+.logout-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+a {
+    color: var(--plasma-green);
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid var(--plasma-green);
+    border-radius: 8px;
+    background: rgba(0, 255, 136, 0.05);
+    transition: all 0.4s ease;
+    font-family: 'Orbitron', sans-serif;
+    box-shadow: 0 8px 25px rgba(0, 255, 136, 0.2);
+}
+
+a:hover {
+    color: var(--void-black);
+    background: var(--plasma-green);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 255, 136, 0.5);
+}
+
+table {
+    width: 90%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: var(--card-bg);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(0, 245, 255, 0.15);
+    margin-bottom: 30px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+table::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        var(--plasma-cyan),
+        var(--plasma-magenta),
+        var(--plasma-yellow),
+        var(--plasma-green),
+        var(--plasma-cyan));
+    background-size: 300% 100%;
+    animation: borderFlow 5s linear infinite;
+}
+
+@keyframes borderFlow {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 300% 0%; }
+}
+
+th, td {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(0, 245, 255, 0.1);
+    text-align: left;
+}
+
+th {
+    background-color: var(--void-dark);
+    color: var(--plasma-cyan);
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+tr:hover {
+    background-color: var(--hover-bg);
+}
+
+tbody tr {
+    transition: all 0.3s ease;
+}
+
+tbody tr:hover {
+    transform: translateX(5px);
+}
+
+button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--white);
+    margin-right: 5px;
+    font-family: 'Electrolize', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s ease, height 0.4s ease;
+}
+
+button:hover::before {
+    width: 150px;
+    height: 150px;
+}
+
+.delete-btn {
+    background-color: #e50914;
+    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
+}
+
+.delete-btn:hover {
+    background-color: #f40612;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.6);
+}
+
+.update-btn {
+    background-color: #1db954;
+    box-shadow: 0 4px 15px rgba(29, 185, 84, 0.4);
+}
+
+.update-btn:hover {
+    background-color: #1ed760;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(29, 185, 84, 0.6);
+}
+
+/* Modal */
+#modal {
+    display: none;
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    backdrop-filter: blur(5px);
+}
+
+#modal-content {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 16px;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.8),
+        0 0 0 1px rgba(0, 245, 255, 0.3),
+        inset 0 0 40px rgba(0, 245, 255, 0.05);
+    position: relative;
+    animation: modalSlideIn 0.4s ease;
+}
+
+@keyframes modalSlideIn {
+    from { opacity: 0; transform: scale(0.9) translateY(-20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+#modal-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        var(--plasma-cyan),
+        var(--plasma-magenta),
+        var(--plasma-yellow));
+    background-size: 200% 100%;
+    animation: borderFlow 3s linear infinite;
+}
+
+#modal-content h2 {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--plasma-cyan);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+#modal-content input, #modal-content select {
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid rgba(0, 245, 255, 0.3);
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--white);
+    font-family: 'Electrolize', sans-serif;
+    transition: all 0.3s ease;
+}
+
+#modal-content input:focus, #modal-content select:focus {
+    border-color: var(--plasma-cyan);
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+    outline: none;
+}
+
+#modal-content button {
+    margin-top: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+    
+    table {
+        width: 100%;
+        font-size: 0.85rem;
+    }
+    
+    th, td {
+        padding: 8px 10px;
+    }
+    
+    #modal-content {
+        width: 90%;
+        max-width: 350px;
+    }
+}
+</style>
+</head>
+<body>
+
+<h1>Patients Dashboard</h1>
+<button class="logout-btn" onclick="logout()">Logout</button>
+<a href="/web/add_patient.html">Add New Patient</a>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Age</th>
+<th>Phone</th>
+<th>Disease</th>
+<th>Doctor</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="list">
+<!-- Patients loaded by JS -->
+</tbody>
+</table>
+
+<!-- Modal for Update -->
+<div id="modal">
+    <div id="modal-content">
+        <h2>Edit Patient</h2>
+        <input id="modal_name" placeholder="Full Name">
+        <input id="modal_age" placeholder="Age">
+        <input id="modal_phone" placeholder="Phone">
+        <input id="modal_disease" placeholder="Disease">
+        <select id="modal_doctor">
+            <option value="">Select Doctor</option>
+        </select>
+        <button onclick="saveEdit()">Save</button>
+        <button onclick="closeModal()">Cancel</button>
+    </div>
+</div>
+
+<script>
+const token = localStorage.getItem("token");
+if(!token){ alert("Login first"); window.location.href="/web/login.html"; }
+
+let editingId = null;
+
+// Logout
+function logout() {
+    localStorage.removeItem("token");
+    window.location.href="/web/login.html";
+}
+
+// Load doctors for modal dropdown
+async function loadDoctorsDropdown() {
+    const res = await fetch("/doctors/", { headers:{ "Authorization":"Bearer "+token } });
+    const data = await res.json();
+    const select = document.getElementById("modal_doctor");
+    select.innerHTML = '<option value="">Select Doctor</option>';
+    data.forEach(d => {
+        const option = document.createElement("option");
+        option.value = d.id;
+        option.text = d.name + " (" + d.specialty + ")";
+        select.appendChild(option);
+    });
+}
+
+// Load patients
+async function loadPatients() {
+    const res = await fetch("/patients/list", { headers:{ "Authorization":"Bearer "+token } });
+    const data = await res.json();
+    let html = "";
+    data.forEach(p => {
+        html += `<tr>
+            <td>${p.full_name}</td>
+            <td>${p.age}</td>
+            <td>${p.phone}</td>
+            <td>${p.disease}</td>
+            <td>${p.doctor_name || "N/A"}</td>
+            <td>
+                <button class="update-btn" onclick="openModal(${p.id}, '${p.full_name}', ${p.age}, '${p.phone}', '${p.disease}', ${p.doctor_id || 0})">✏️</button>
+                <button class="delete-btn" onclick="del(${p.id})">❌</button>
+            </td>
+        </tr>`;
+    });
+    document.getElementById("list").innerHTML = html;
+}
+
+// Delete patient
+async function del(id){
+    await fetch("/patients/delete/"+id, { method:"DELETE", headers:{ "Authorization":"Bearer "+token } });
+    loadPatients();
+}
+
+// Open modal
+function openModal(id, name, age, phone, disease, doctor_id){
+    editingId = id;
+    document.getElementById("modal_name").value = name;
+    document.getElementById("modal_age").value = age;
+    document.getElementById("modal_phone").value = phone;
+    document.getElementById("modal_disease").value = disease;
+    document.getElementById("modal_doctor").value = doctor_id;
+    document.getElementById("modal").style.display = "flex";
+    loadDoctorsDropdown();
+}
+
+// Close modal
+function closeModal(){ document.getElementById("modal").style.display="none"; }
+
+// Save edit
+async function saveEdit(){
+    const updates = {
+        full_name: document.getElementById("modal_name").value,
+        age: parseInt(document.getElementById("modal_age").value),
+        phone: document.getElementById("modal_phone").value,
+        disease: document.getElementById("modal_disease").value,
+        doctor_id: parseInt(document.getElementById("modal_doctor").value) || null
+    };
+
+    await fetch("/patients/update/"+editingId, {
+        method:"PUT",
+        headers: {
+            "Content-Type":"application/json",
+            "Authorization":"Bearer "+token
+        },
+        body: JSON.stringify(updates)
+    });
+
+    closeModal();
+    loadPatients();
+}
+
+// Initial load
+loadPatients();
+</script>
+</body>
+</html>

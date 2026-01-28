@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Patient</title>
+<link rel="stylesheet" href="/web/css/app.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --neon-teal: #00FFF0;
+    --neon-purple: #B026FF;
+    --neon-pink: #FF00E5;
+    --cyber-blue: #0099FF;
+    --deep-space: #05000E;
+    --dark-void: #0A0A1F;
+    --card-dark: #151533;
+    --white: #FFFFFF;
+    --gray: #9CA3AF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Netflix-dark theme */
+body {
+    background: var(--deep-space);
+    color: var(--white);
+    font-family: 'Chakra Petch', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Holographic background */
+body::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: 
+        radial-gradient(circle at 30% 20%, rgba(0, 255, 240, 0.1) 0%, transparent 30%),
+        radial-gradient(circle at 70% 80%, rgba(176, 38, 255, 0.1) 0%, transparent 30%),
+        radial-gradient(circle at 50% 50%, rgba(255, 0, 229, 0.08) 0%, transparent 40%);
+    animation: holoRotate 30s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes holoRotate {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.1); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+/* Digital rain effect */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(0, 255, 240, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 240, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    animation: digitalRain 20s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes digitalRain {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(30px); }
+}
+
+/* Floating particles */
+.particle {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: var(--neon-teal);
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    animation: particleRise 8s ease-in-out infinite;
+    z-index: 0;
+}
+
+.particle:nth-child(1) { left: 15%; animation-delay: 0s; }
+.particle:nth-child(2) { left: 35%; animation-delay: 2s; }
+.particle:nth-child(3) { left: 55%; animation-delay: 4s; }
+.particle:nth-child(4) { left: 75%; animation-delay: 1s; }
+.particle:nth-child(5) { left: 85%; animation-delay: 3s; }
+
+@keyframes particleRise {
+    0% { bottom: 0; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { bottom: 100%; opacity: 0; }
+}
+
+/* All content relative positioning */
+body > * {
+    position: relative;
+    z-index: 10;
+}
+
+h1 {
+    font-family: 'Audiowide', sans-serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 1.5rem;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    background: linear-gradient(135deg, var(--neon-teal), var(--cyber-blue), var(--neon-purple));
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: hologramShift 5s ease infinite, slideDown 0.8s ease;
+    text-shadow: 0 0 40px rgba(0, 255, 240, 0.5);
+    position: relative;
+}
+
+@keyframes hologramShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h1::before {
+    content: '⚡';
+    position: absolute;
+    left: -50px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; transform: translateY(-50%) scale(1); }
+    50% { opacity: 1; transform: translateY(-50%) scale(1.2); }
+}
+
+h1::after {
+    content: '⚡';
+    position: absolute;
+    right: -50px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    animation: pulse 2s ease-in-out infinite 1s;
+}
+
+input, select {
+    padding: 1rem 1.5rem;
+    margin: 0.6rem 0;
+    border-radius: 12px;
+    border: 2px solid rgba(0, 255, 240, 0.3);
+    width: 350px;
+    background: rgba(21, 21, 51, 0.6);
+    backdrop-filter: blur(10px);
+    color: var(--white);
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    outline: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        inset 0 0 20px rgba(0, 255, 240, 0.05),
+        0 4px 15px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 0.6s ease both;
+    position: relative;
+}
+
+input:nth-of-type(1) { animation-delay: 0.1s; }
+input:nth-of-type(2) { animation-delay: 0.2s; }
+input:nth-of-type(3) { animation-delay: 0.3s; }
+input:nth-of-type(4) { animation-delay: 0.4s; }
+select { animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+input::placeholder, select {
+    color: var(--gray);
+    font-weight: 400;
+}
+
+input:focus, select:focus {
+    border-color: var(--neon-teal);
+    background: rgba(21, 21, 51, 0.8);
+    box-shadow: 
+        0 0 30px rgba(0, 255, 240, 0.4),
+        inset 0 0 30px rgba(0, 255, 240, 0.1),
+        0 8px 25px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px);
+}
+
+input:focus::placeholder {
+    color: var(--neon-teal);
+    opacity: 0.7;
+}
+
+/* Select dropdown styling */
+select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%2300FFF0' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1.5rem center;
+    padding-right: 3rem;
+}
+
+select option {
+    background: var(--card-dark);
+    color: var(--white);
+    padding: 1rem;
+}
+
+button {
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #E50914, #F40612);
+    color: var(--white);
+    font-family: 'Audiowide', sans-serif;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        0 10px 40px rgba(229, 9, 20, 0.4),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
+    animation: fadeInUp 0.6s ease 0.6s both;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #F40612, #FF0A15);
+    transform: translateY(-4px);
+    box-shadow: 
+        0 15px 50px rgba(229, 9, 20, 0.6),
+        inset 0 0 30px rgba(255, 255, 255, 0.15);
+}
+
+button:hover::before {
+    left: 100%;
+}
+
+button:active {
+    transform: translateY(-2px);
+}
+
+a {
+    margin-top: 1.5rem;
+    color: var(--neon-teal);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 0.8rem 2rem;
+    border: 2px solid var(--neon-teal);
+    border-radius: 12px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: rgba(0, 255, 240, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 255, 240, 0.2);
+    animation: fadeInUp 0.6s ease 0.7s both;
+    position: relative;
+    overflow: hidden;
+}
+
+a::before {
+    content: '→';
+    position: absolute;
+    right: 20px;
+    transition: all 0.4s ease;
+}
+
+a:hover {
+    color: var(--dark-void);
+    background: var(--neon-teal);
+    transform: translateY(-3px);
+    box-shadow: 
+        0 8px 30px rgba(0, 255, 240, 0.5),
+        0 0 40px rgba(0, 255, 240, 0.3);
+}
+
+a:hover::before {
+    right: 15px;
+}
+
+/* Logout button */
+.logout-btn {
+    background: linear-gradient(135deg, #555, #777);
+    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    animation: fadeInUp 0.6s ease 0s both;
+}
+
+.logout-btn:hover {
+    background: linear-gradient(135deg, #777, #999);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+}
+
+/* Form container wrapper */
+.form-wrapper {
+    background: rgba(21, 21, 51, 0.4);
+    backdrop-filter: blur(15px);
+    padding: 2.5rem;
+    border-radius: 24px;
+    border: 1px solid rgba(0, 255, 240, 0.2);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        inset 0 0 60px rgba(0, 255, 240, 0.03);
+    position: relative;
+    margin-top: 1rem;
+    animation: fadeIn 0.8s ease 0.2s both;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.form-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent,
+        var(--neon-teal),
+        var(--cyber-blue),
+        var(--neon-purple),
+        transparent);
+    background-size: 200% 100%;
+    animation: borderScan 3s linear infinite;
+}
+
+@keyframes borderScan {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200% 0%; }
+}
+
+/* Scanline effect */
+.scanline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--neon-teal), transparent);
+    animation: scan 4s linear infinite;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.4;
+}
+
+@keyframes scan {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100vh); }
+}
+
+/* Glitch effect on hover */
+h1:hover {
+    animation: glitch 0.3s ease;
+}
+
+@keyframes glitch {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(2px, -2px); }
+    60% { transform: translate(-2px, -2px); }
+    80% { transform: translate(2px, 2px); }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    body {
+        padding: 1.5rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h1::before,
+    h1::after {
+        font-size: 1.5rem;
+        left: -35px;
+    }
+
+    h1::after {
+        right: -35px;
+        left: auto;
+    }
+
+    input, select {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    .form-wrapper {
+        padding: 1.5rem;
+    }
+
+    button,
+    a {
+        width: 100%;
+        max-width: 350px;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- Floating particles -->
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+
+<!-- Scanline effect -->
+<div class="scanline"></div>
+
+<h1>Add Patient</h1>
+<button class="logout-btn" onclick="logout()">Logout</button>
+
+<div class="form-wrapper">
+    <input id="name" placeholder="Full Name">
+    <input id="age" placeholder="Age">
+    <input id="phone" placeholder="Phone">
+    <input id="disease" placeholder="Disease">
+
+    <select id="doctor_id">
+        <option value="">Select Doctor</option>
+    </select>
+
+    <button onclick="addPatient()">Add Patient</button>
+</div>
+
+<a href="/web/dashboard_patients.html">View All Patients</a>
+
+<script src="/web/js/pateints.js"></script>
+</body>
+</html>
